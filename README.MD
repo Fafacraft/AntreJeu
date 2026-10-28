@@ -27,7 +27,7 @@ Nginx reverse proxy (proxy container)
    |
    +----> Frontend container (Nginx + React build)
    |
-   +----> Backend container (future: Express API)
+   +----> Backend container (Express API)
                  |
                  +----> Database container (future: MySQL)
 ```
@@ -41,7 +41,6 @@ The two Nginx configurations have different purposes:
 - `docker/nginx/proxy.conf`: the public entry point. It forwards incoming requests to the appropriate service.
 - `docker/nginx/frontend.conf`: the Nginx server inside the frontend container. It serves the compiled React application and falls back to `index.html` for client-side routes.
 
-When the backend is implemented, the proxy will route requests under `/api/` to the Express service. The database will remain on the private Docker network and will not have a public port.
 
 ## Prerequisites
 
@@ -69,16 +68,6 @@ git submodule update --init --recursive
 ### Configure environment variables
 
 Create a local `.env` file in the root of this repository, alongside `compose.yaml`.
-
-Example:
-
-```dotenv
-VITE_SENTRY_DSN=https://your-public-key@your-sentry-host/your-project-id
-```
-
-Use the actual DSN from the Sentry project. The example above is a placeholder.
-
-The root `.env` is used by Docker Compose to substitute variables into the Compose configuration. It is not automatically copied into containers.
 
 Keep `.env` out of Git. Commit an `.env.example` containing placeholder values so other developers know which variables are required.
 
